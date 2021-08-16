@@ -1,6 +1,6 @@
-import { BlockQuote, BlockQuoteEditing, BlockQuoteUI } from "@ckeditor/ckeditor5-block-quote";
-import BlockQuoteCommand from "@ckeditor/ckeditor5-block-quote/src/blockquotecommand";
-import { Editor } from "@ckeditor/ckeditor5-core";
+import { BlockQuote, BlockQuoteEditing, BlockQuoteUI } from '@ckeditor/ckeditor5-block-quote';
+import BlockQuoteCommand from '@ckeditor/ckeditor5-block-quote/src/blockquotecommand';
+import { Editor } from '@ckeditor/ckeditor5-core';
 
 class MyEditor extends Editor {}
 const editor = new MyEditor();

@@ -416,7 +416,7 @@ emitter.delegate("foo").to(emitter, name => name + "-delegated");
 
 emitter.fire("foo");
 emitter.fire("foo", 1, "b", true);
-emitter.fire("getSelectedContent", (evt: EventInfo<any>) => {
+emitter.fire("getSelectedContent", (evt: EventInfo) => {
     evt.stop();
 });
 
@@ -457,8 +457,8 @@ bool = env.isMac;
 
 // utils/eventinfo ============================================================
 
-const event = new EventInfo({ a: 1 }, "test");
-num = event.source.a;
+const event = new EventInfo(EmitterMixin, "test");
+const emit: Emitter = event.source;
 str = event.name;
 
 event.path[0];
@@ -669,6 +669,30 @@ options = {
     element: document.createElement("div"),
     target: document.createElement("div"),
     positions: [() => null, () => ({ top: 3, left: 3, name: "" })],
+};
+
+options = {
+    element: document.createElement("div"),
+    target: new Rect(document.createElement('div')),
+    positions: [() => null, () => ({ top: 3, left: 3, name: "" })],
+};
+
+options = {
+    element: document.createElement('div'),
+    target: new Range(),
+    positions: [() => null, () => ({ top: 3, left: 3, name: '' })],
+};
+
+options = {
+    element: document.createElement("div"),
+    target: window,
+    positions: [() => null, () => ({ top: 3, left: 3, name: "" })],
+};
+
+options = {
+    element: document.createElement('div'),
+    target: document.body.getClientRects().item(0)!,
+    positions: [() => null, () => ({ top: 3, left: 3, name: '' })],
 };
 
 // utils/toArray ==============================================================

@@ -44,28 +44,37 @@ webpackDevMiddlewareInstance = webpackDevMiddleware(compiler, {
     },
 });
 
+// $ExpectType string | undefined
+webpackDevMiddlewareInstance.getFilenameFromUrl('/');
+
 // return value
 const app = express();
 app.use([webpackDevMiddlewareInstance]);
 
+webpackDevMiddlewareInstance.waitUntilValid();
 webpackDevMiddlewareInstance.waitUntilValid(stats => {
     if (stats) {
         console.log('Package is in a valid state:' + stats.toJson());
     }
 });
 
+webpackDevMiddlewareInstance.invalidate();
 webpackDevMiddlewareInstance.invalidate(stats => {
     if (stats) {
         console.log(stats.toJson());
     }
 });
 
+webpackDevMiddlewareInstance.close();
 webpackDevMiddlewareInstance.close(() => {
     console.log('closed');
 });
 
 // $ExpectType boolean
 webpackDevMiddlewareInstance.context.state;
+
+// $ExpectType OutputFileSystem
+webpackDevMiddlewareInstance.context.outputFileSystem;
 
 function foo(_: webpack.Stats) {}
 if (webpackDevMiddlewareInstance.context.stats) {
@@ -83,12 +92,12 @@ if (webpackDevMiddlewareInstance.context.watching) {
 
 webpackDevMiddlewareInstance = webpackDevMiddleware(compiler, {
     headers: () => {
-        return { "X-nonsense-1": "yes", "X-nonsense-2": "no" };
+        return { 'X-nonsense-1': 'yes', 'X-nonsense-2': 'no' };
     },
 });
 webpackDevMiddlewareInstance = webpackDevMiddleware(compiler, {
     headers: (req, res) => {
-        res.setHeader("X-nonsense-1", "yes");
-        res.setHeader("X-nonsense-2", "no");
+        res.setHeader('X-nonsense-1', 'yes');
+        res.setHeader('X-nonsense-2', 'no');
     },
 });

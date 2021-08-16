@@ -31,6 +31,7 @@ sharp("input.png")
     .sharpen()
     .withMetadata()
     .withMetadata({
+        density: 96,
         orientation: 8,
         icc: "some/path",
         exif: { IFD0: { Copyright: "Wernham Hogg" } },
@@ -299,10 +300,20 @@ sharp(input).png().png({}).png({
 sharp(input)
     .avif()
     .avif({})
-    .avif({ quality: 50, lossless: false, speed: 5 })
+    .avif({ quality: 50, lossless: false, speed: 5, chromaSubsampling: '4:2:0' })
     .heif()
     .heif({})
     .heif({ quality: 50, compression: "hevc", lossless: false, speed: 5 })
+    .toBuffer({ resolveWithObject: true })
+    .then(({ data, info }) => {
+        console.log(data);
+        console.log(info);
+    });
+
+sharp(input)
+    .gif()
+    .gif({})
+    .gif({pageHeight: 5, loop: 0, delay: [], force: true})
     .toBuffer({ resolveWithObject: true })
     .then(({ data, info }) => {
         console.log(data);
@@ -344,3 +355,14 @@ sharp({
     .then((largeImage) =>
       sharp(input).composite([{ input: largeImage, limitInputPixels: false }]),
     );
+
+// Taken from API documentation at
+// https://sharp.pixelplumbing.com/api-operation#clahe
+// introducted
+sharp("input.jpg")
+    .clahe({ width: 10, height: 10 })
+    .toFile("output.jpg");
+
+sharp("input.jpg")
+    .clahe({ width: 10, height: 10, maxSlope: 5 })
+    .toFile("outfile.jpg");
